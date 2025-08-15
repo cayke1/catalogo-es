@@ -11,6 +11,5 @@ class HomeController extends RenderView {
         ];
         $this->loadView('partials/header', ['title' => $args['title']]);
         $this->loadView('home', $args);
-        $this->loadView('partials/footer', []);
     }
 }

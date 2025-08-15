@@ -1,0 +1,358 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--background, #f8fafc);
+  color: var(--foreground, #1f2937);
+  line-height: 1.5;
+}
+
+/* Variáveis CSS */
+:root {
+  --background: #f8fafc;
+  --foreground: #1f2937;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+  --border-color: #e2e8f0;
+  --input-border: #d1d5db;
+  --primary: #3b82f6;
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #f1f5f9;
+  --secondary-bg: #f1f5f9;
+  --secondary-foreground: #475569;
+  --destructive: #ef4444;
+  --muted-foreground: #6b7280;
+  --ring: #3b82f6;
+}
+
+/* Header */
+.header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1),
+              0 1px 2px rgba(0, 0, 0, 0.06);
+    padding: 0.5rem 1rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary-color);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--foreground-color, var(--foreground));
+  margin: 0;
+}
+
+/* Navegação */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--muted-foreground);
+}
+
+.nav-link:hover {
+  color: var(--foreground);
+  background-color: var(--secondary-bg);
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.nav-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.nav-mobile {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-mobile-link {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--muted-foreground);
+}
+
+.nav-mobile-link:hover {
+  background-color: var(--secondary-bg);
+}
+
+.nav-mobile-link.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.nav-mobile-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-mobile {
+    display: none;
+  }
+}
+
+/* Container */
+.container {
+  max-width: 42rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Formulário */
+.form-container {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--background);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-textarea {
+  resize: none;
+  min-height: 6rem;
+}
+
+/* Upload de imagem */
+.image-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.image-upload-area:hover {
+  border-color: var(--primary);
+}
+
+.upload-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--muted-foreground);
+  margin: 0 auto 1rem;
+}
+
+.upload-text {
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+
+.upload-subtext {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.file-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--background);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.file-input::-webkit-file-upload-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.file-input::-webkit-file-upload-button:hover {
+  background: var(--primary-hover);
+}
+
+/* Preview da imagem */
+.image-preview {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.preview-image {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--destructive);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background: #dc2626;
+}
+
+/* Botões */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .button-group {
+    flex-direction: row;
+  }
+}
+
+.btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+/* Mensagens */
+.error-message {
+  color: var(--destructive);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  background: #10b981;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Utilitários */
+.hidden {
+  display: none;
+}
