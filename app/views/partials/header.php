@@ -8,7 +8,8 @@
   <title>
     <?php echo $title; ?>
   </title>
-  <link rel="stylesheet" href="/app/views/partials/css/header.css">
+  <link rel="stylesheet" href="/app/public/css/globals.css">
+
 </head>
 
 <?php
@@ -21,7 +22,6 @@ function isActive($path, $current) {
 ?>
 
 <header class="header">
-    <div class="container">
         <div class="header-content">
             <a href="<?php echo $base_url; ?>" class="logo-section">
                 <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,5 +58,4 @@ function isActive($path, $current) {
                 </a>
             </div>
         </div>
-    </div>
 </header>

@@ -10,6 +10,5 @@ class NotFoundController extends RenderView
       "title" => "Página não encontrada",
     ]);
     $this->loadView('404', []);
-    $this->loadView('partials/footer', []);
   }
 }
