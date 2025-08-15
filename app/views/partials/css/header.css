@@ -1,0 +1,122 @@
+.header {
+    background-color: var(--card-bg, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--primary-color, #3b82f6);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--foreground-color, #1f2937);
+    margin: 0;
+}
+
+.nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    color: var(--muted-foreground, #6b7280);
+}
+
+.nav-link:hover {
+    color: var(--foreground-color, #1f2937);
+    background-color: var(--secondary-bg, #f1f5f9);
+}
+
+.nav-link.active {
+    background-color: var(--primary-color, #3b82f6);
+    color: white;
+}
+
+.nav-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.nav-mobile {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-mobile-link {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    color: var(--muted-foreground, #6b7280);
+}
+
+.nav-mobile-link:hover {
+    background-color: var(--secondary-bg, #f1f5f9);
+}
+
+.nav-mobile-link.active {
+    background-color: var(--primary-color, #3b82f6);
+    color: white;
+}
+
+.nav-mobile-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .nav-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-mobile {
+        display: none;
+    }
+}
+
+:root {
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --primary-color: #3b82f6;
+    --foreground-color: #1f2937;
+    --muted-foreground: #6b7280;
+    --secondary-bg: #f1f5f9;
+}
