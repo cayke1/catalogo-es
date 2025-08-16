@@ -20,4 +20,13 @@ class ProductModel extends Database
             return false;
         }
     }
+    public function listAll()
+    {
+        $query = $this->pdo->query("SELECT * FROM Products");
+        if ($query->rowCount() > 0) {
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return [];
+        }
+    }
 }
