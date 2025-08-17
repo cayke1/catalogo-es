@@ -31,14 +31,13 @@ function isActive($path, $current) {
             </a>
         
             <nav class="nav-desktop">
-                <a href="<?php echo $base_url; ?>list-products" class="nav-link <?php echo isActive('/list-products', $current_page); ?>">
+                <a href="<?php echo $base_url; ?>" class="nav-link <?php echo isActive('/', $current_page); ?>">
                     <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                     </svg>
                     <span>Produtos</span>
                 </a>
                 <a href="<?php echo $base_url; ?>add-product" class="nav-link <?php echo isActive('/add-product', $current_page); ?>">
-                    <!-- Ícone Plus (SVG) -->
                     <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -46,7 +45,7 @@ function isActive($path, $current) {
                 </a>
             </nav>
             <div class="nav-mobile">
-                <a href="<?php echo $base_url; ?>list-products" class="nav-mobile-link <?php echo isActive('/list-products', $current_page); ?>">
+                <a href="<?php echo $base_url; ?>" class="nav-mobile-link <?php echo isActive('/', $current_page); ?>">
                     <svg class="nav-mobile-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                     </svg>

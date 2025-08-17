@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/app/public/css/tempCards.css">
+<link rel="stylesheet" href="/app/public/css/Cards.css">
 <section class="grid" aria-label="Lista de produtos">
   <?php foreach($title as $item){ ;?>
       <article class="card" tabindex="0">
@@ -30,4 +30,3 @@
         </div>
       </article>
   <?php }?>
-      </article>
