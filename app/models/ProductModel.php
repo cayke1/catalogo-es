@@ -22,7 +22,7 @@ class ProductModel extends Database
     }
     public function listAll()
     {
-        $query = $this->pdo->query("SELECT * FROM Products");
+        $query = $this->pdo->query("SELECT * FROM Products ORDER BY id DESC");
         if ($query->rowCount() > 0) {
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } else {
