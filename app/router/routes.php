@@ -1,6 +1,7 @@
 <?php
 
 $routes = [
-    "/" => "HomeController@index",
+    "/" => "ProductController@list",
     "/add-product" => "ProductController@create",
+    
 ];

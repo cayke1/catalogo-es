@@ -37,4 +37,13 @@ class ProductController extends RenderView
         $this->loadView('partials/header', ['title' => 'Add Product']);
         $this->loadView('add-product', []);
     }
+    public function list()
+    {
+        $productModel = new ProductModel();
+        $products = $productModel->listAll();
+
+        // Carregar a view com os produtos
+        $this->loadView('partials/header', ['title' => 'Lista de Produtos']);
+        $this->loadView('partials/cards', ['title' => $products]);
+    }
 }
