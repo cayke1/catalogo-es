@@ -8,18 +8,29 @@ class ProductModel extends Database
         $this->pdo = $this->getConnection();
     }
 
-    public function createProduct($title, $price, $description) {
-        $stmt = $this->pdo->prepare("INSERT INTO Products (title, price, description) VALUES (:title, :price, :description)");
+    public function createProduct($title, $price, $description, $image_url = null)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO Products (title, price, description, image_url) VALUES (:title, :price, :description, :image_url)");
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':description', $description);
-        
+        $stmt->bindParam(':image_url', $image_url);
+
         if ($stmt->execute()) {
             return $this->pdo->lastInsertId();
         } else {
             return false;
         }
     }
+
+    public function updateProductImage($productId, $image_url)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Products SET image_url = :image_url WHERE id = :id");
+        $stmt->bindParam(':image_url', $image_url);
+        $stmt->bindParam(':id', $productId);
+        return $stmt->execute();
+    }
+
     public function listAll()
     {
         $query = $this->pdo->query("SELECT * FROM Products ORDER BY id DESC");

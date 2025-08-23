@@ -10,6 +10,7 @@ class ProductController extends RenderView
             $title = $_POST['title'] ?? '';
             $price = $_POST['price'] ?? 0;
             $description = $_POST['description'] ?? '';
+            $image_url = null;
 
             if (empty($title)) {
                 echo json_encode(['success' => false, 'error' => 'Título é obrigatório']);
@@ -21,15 +22,18 @@ class ProductController extends RenderView
                 exit;
             }
 
-            //Lógica para adicionar upload de imagem
-            if (isset($_FILES['image']) && $_FILES['image']["error"] === UPLOAD_ERR_OK) {
-                $maxFileSize = 2 * 1024 *1024;
+            // Handle image upload
+            if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
+
+                $maxFileSize = 2 * 1024 * 1024;
                 if ($_FILES["image"]["size"] > $maxFileSize) {
-                    echo json_encode(["success"=> false, "erro" => "Arquivo de imagem é muito grande. Tamanho máximo 2MB"]);
+                    echo json_encode(["success" => false, "error" => "O arquivo de imagem é muito grande. O tamanho máximo permitido é 2MB."]);
                     exit;
                 }
+
                 $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-                $fileMimeType = mime_content_type($_FILES['image']['tmp_name']);
+                $fileMimeType = mime_content_type($_FILES["image"]["tmp_name"]); 
+
                 if (!in_array($fileMimeType, $allowedMimeTypes)) {
                     echo json_encode(["success" => false, "error" => "Tipo de arquivo inválido. Apenas imagens JPG, PNG e GIF são permitidas."]);
                     exit;
@@ -51,7 +55,7 @@ class ProductController extends RenderView
             }
 
             $productModel = new ProductModel();
-            $productId = $productModel->createProduct($title, $price, $description);
+            $productId = $productModel->createProduct($title, $price, $description, $image_url);
 
             if ($productId) {
                 echo json_encode(['success' => true]);
