@@ -1,10 +1,17 @@
 <?php
+
+require_once __DIR__ . '/../utils/LoadEnv.php';
+
 class Database {
     private $host;
     private $database;
     private $user;
     private $password;
     private $port;
+
+    public function __construct() {
+        LoadEnv::loadAll(null);
+    }
 
     public function getConnection()
     {

@@ -29,4 +29,39 @@ class ProductModel extends Database
             return [];
         }
     }
+
+    public function findById($id){
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM Products WHERE id = ?");
+            $stmt->execute([$id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Erro em findById: " . $e->getMessage());
+            throw new Exception("Erro ao buscar produto");
+        }
+    }
+
+    public function update($id, $data) {
+    try {
+        $sql = "UPDATE Products SET 
+                title = ?, 
+                price = ?, 
+                description = ?, 
+                updated_at = NOW() 
+                WHERE id = ?";
+                
+        $stmt = $this->pdo->prepare($sql);
+        
+        return $stmt->execute([
+            $data['title'],
+            $data['price'],
+            $data['description'],
+            $id
+        ]);
+        
+    } catch (PDOException $e) {
+        throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
+    }
+}
 }
