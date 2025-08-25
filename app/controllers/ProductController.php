@@ -46,4 +46,22 @@ class ProductController extends RenderView
         $this->loadView('partials/header', ['title' => 'Lista de Produtos']);
         $this->loadView('partials/cards', ['title' => $products]);
     }
+
+    public function show($id)
+    {
+        $productModel = new ProductModel();
+        $product = $productModel->getById($id);
+
+        if (!$product) {
+            // not encontreido vai redirecionar para 404
+            header("HTTP/1.0 404 Not Found");
+            $this->loadView('partials/header', ['title' => 'Produto não encontrado']);
+            $this->loadView('404', []);
+            return;
+        }
+
+        // detalhes do produto
+        $this->loadView('partials/header', ['title' => $product['title']]);
+        $this->loadView('product-details', ['product' => $product]);
+    }
 }

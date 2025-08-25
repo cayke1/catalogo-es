@@ -11,7 +11,7 @@ class Database {
         $this->host = LoadEnv::get('DB_HOST');
         $this->database = LoadEnv::get('DB_NAME');
         $this->user = LoadEnv::get('DB_USER');
-        $this->password = LoadEnv::get('DB_PASSWORD');
+        $this->password = LoadEnv::get('DB_PASS');
         $this->port = LoadEnv::get('DB_PORT');
 
         try {

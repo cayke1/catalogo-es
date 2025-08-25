@@ -25,7 +25,13 @@ class LoadEnv
                 continue;
             }
 
-            [$name, $value] = array_map('trim', explode('=', $line, 2));
+            $parts = array_map('trim', explode('=', $line, 2));
+            
+            if (count($parts) !== 2) {
+                continue;
+            }
+            
+            [$name, $value] = $parts;
 
             $value = trim($value, "\"'");
 

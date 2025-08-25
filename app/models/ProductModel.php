@@ -29,4 +29,17 @@ class ProductModel extends Database
             return [];
         }
     }
+
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Products WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return null;
+        }
+    }
 }
