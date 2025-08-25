@@ -32,11 +32,10 @@ class ProductController extends RenderView
             exit;
         }
 
-
-        // Carregar a view apenas para GET
         $this->loadView('partials/header', ['title' => 'Add Product']);
         $this->loadView('add-product', []);
     }
+
     public function list()
     {
         $productModel = new ProductModel();
@@ -47,44 +46,25 @@ class ProductController extends RenderView
         $this->loadView('partials/cards', ['title' => $products]);
     }
 
-    public function debug(){
-        $this->loadView('debug', []);
-    }
-
-    // private function getIdFromUri($prefix = '/edit-product/'){
-
-    //     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-    //     $id = str_replace($prefix, '', $uri);
-
-    //     return (int)$id; // força ser int
-    // }
-
-
     public function edit($id){
 
-        // $id = $this->getIdFromUri('/edit-product/');
 
         try {
-        // Validar se ID é numérico
             if (!is_numeric($id)) {
                 $_SESSION['error'] = "ID inválido";
                 header('Location:/debug');
                 exit;
             }
             
-            // Buscar produto no banco
             $productModel = new ProductModel();
             $product = $productModel->findById($id);
             
-            // Verificar se produto existe
             if (!$product) {
                 $_SESSION['error'] = "Produto não encontrado";
                 header('Location:/add-product');
                 exit;
             }
             
-            // Carregar view com dados do produto
             $this->loadView('partials/header', ['title' => 'edit Product']);
             $this->loadView('edit-product', ['product' => $product]);
         
@@ -99,21 +79,18 @@ class ProductController extends RenderView
         $errors = [];
         $product = [];
         
-        // Validar nome
         if (empty(trim($data['title'] ?? ''))) {
             $errors[] = "Nome é obrigatório";
         } else {
             $product['title'] = trim($data['title']);
         }
         
-        // Validar preço
         if (empty($data['price']) || !is_numeric($data['price']) || $data['price'] <= 0) {
             $errors[] = "Preço deve ser um número maior que zero";
         } else {
             $product['price'] = floatval($data['price']);
         }
         
-        // Validar descrição (se houver)
         $product['description'] = trim($data['description'] ?? '');
         
         return [
@@ -124,7 +101,6 @@ class ProductController extends RenderView
 
     public function update($id) {
 
-        // $id = $this->getIdFromUri('/edit-product/');
         try {
 
             if (!is_numeric($id)) {
@@ -133,13 +109,11 @@ class ProductController extends RenderView
                 exit;
             }
             
-            // Verificar se é POST
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 header('Location: /edit-product/' . $id);
                 exit;
             }
             
-            // Buscar produto atual
             $productModel = new ProductModel();
             $currentProduct = $productModel->findById($id);
 
@@ -149,13 +123,12 @@ class ProductController extends RenderView
                 exit;
             }
             
-            // Validar dados do formulário
+
             $data  = $this->validateProductData($_POST);
             
             if (empty($data['errors'])) {
 
-                // Atualizar produto
-                $success = $productModel->update($id, $data['Products']);
+                $success = $productModel->update($id, $data['product']);
                 
                 if ($success) {
                     $_SESSION['success'] = "Produto atualizado com sucesso!";
@@ -172,7 +145,7 @@ class ProductController extends RenderView
         
         } catch (Exception $e) {
             $_SESSION['error'] = "Erro ao atualizar produto: " . $e->getMessage();
-            header('Location: /erro-exception/' . $id);
+            header('Location: /error-exception/' . $e->getMessage());
         }
 
         exit;

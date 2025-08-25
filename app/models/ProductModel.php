@@ -43,25 +43,25 @@ class ProductModel extends Database
     }
 
     public function update($id, $data) {
-    try {
-        $sql = "UPDATE Products SET 
-                title = ?, 
-                price = ?, 
-                description = ?, 
-                updated_at = NOW() 
-                WHERE id = ?";
-                
-        $stmt = $this->pdo->prepare($sql);
-        
-        return $stmt->execute([
-            $data['title'],
-            $data['price'],
-            $data['description'],
-            $id
-        ]);
-        
-    } catch (PDOException $e) {
-        throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
-    }
+        try {
+            $sql = "UPDATE Products SET 
+                    title = ?, 
+                    price = ?, 
+                    description = ?
+                    WHERE id = ?";
+                    
+            $stmt = $this->pdo->prepare($sql);
+            
+            return $stmt->execute([
+                $data['title'],
+                $data['price'],
+                $data['description'],
+                $id
+            ]);
+            
+        } catch (PDOException $e) {
+            error_log("Erro no update: " . $e->getMessage());
+            throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
+        }
 }
 }

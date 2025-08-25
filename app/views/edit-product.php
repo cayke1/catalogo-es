@@ -6,7 +6,7 @@
 
 
         <div class="form-group">
-            <label for="tile" class="form-label">Nome do Produto *</label>
+            <label for="tile" class="form-label">Novo nome para <?php echo $product['title'] ?> *</label>
             <input
                 type="text"
                 id="title"
