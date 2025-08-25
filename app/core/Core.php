@@ -65,6 +65,23 @@ class Core
         return '#^' . $pattern . '$#';
     }
     
+    // No arquivo principal de roteamento (index.php ou similar)
+    function matchRoute($uri, $routes) {
+        foreach ($routes as $route => $action) {
+            // Converter {id} para regex
+            $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $route);
+            $pattern = '#^' . $pattern . '$#';
+            
+            if (preg_match($pattern, $uri, $matches)) {
+                return [
+                    'action' => $action,
+                    'params' => array_slice($matches, 1)
+                ];
+            }
+        }
+        return false;
+    }
+
     /**
      * Executa o controller e action
      */
