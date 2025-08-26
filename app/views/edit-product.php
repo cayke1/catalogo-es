@@ -13,6 +13,7 @@
                 name="title"
                 class="form-input"
                 placeholder="Digite o nome do produto"
+                value="<?= htmlspecialchars($product['title']) ?>"
                 required>
         </div>
 
@@ -27,7 +28,9 @@
                 placeholder="0,00"
                 min="0"
                 step="0.01"
-                required>
+                value="<?= htmlspecialchars($product['price']) ?>"
+                required
+                >
         </div>
 
 
@@ -38,7 +41,7 @@
                 name="description"
                 class="form-textarea"
                 placeholder="Descreva o produto..."
-                rows="4"></textarea>
+                rows="4"><?= htmlspecialchars($product['description']) ?></textarea>
         </div>
 
 
