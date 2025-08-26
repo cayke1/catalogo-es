@@ -41,8 +41,6 @@ class ProductModel extends Database
         }
     }
 
-
-
     public function findById($id){
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM Products WHERE id = ?");
@@ -55,26 +53,84 @@ class ProductModel extends Database
         }
     }
 
+    private function deleteImageFile($image_url) {
+        if (!empty($image_url)) {
+            $imagePath = __DIR__ . '/../../' . ltrim($image_url, '/');
+            
+            if (file_exists($imagePath)) {
+                return unlink($imagePath);
+            }
+        }
+        return true; 
+    }
+
     public function update($id, $data) {
         try {
-            $sql = "UPDATE Products SET 
-                    title = ?, 
-                    price = ?, 
-                    description = ?
-                    WHERE id = ?";
-                    
-            $stmt = $this->pdo->prepare($sql);
-            
-            return $stmt->execute([
-                $data['title'],
-                $data['price'],
-                $data['description'],
-                $id
-            ]);
+            if (isset($data['image_url'])) {
+                $currentProduct = $this->findById($id);
+                if ($currentProduct && !empty($currentProduct['image_url'])) {
+                    $this->deleteImageFile($currentProduct['image_url']);
+                }
+                
+                // Atualiza com a nova imagem
+                $sql = "UPDATE Products SET 
+                        title = ?, 
+                        price = ?, 
+                        description = ?,
+                        image_url = ?
+                        WHERE id = ?";
+                        
+                $stmt = $this->pdo->prepare($sql);
+                
+                return $stmt->execute([
+                    $data['title'],
+                    $data['price'],
+                    $data['description'],
+                    $data['image_url'],
+                    $id
+                ]);
+            } else {
+                // Atualiza sem modificar a imagem
+                $sql = "UPDATE Products SET 
+                        title = ?, 
+                        price = ?, 
+                        description = ?
+                        WHERE id = ?";
+                        
+                $stmt = $this->pdo->prepare($sql);
+                
+                return $stmt->execute([
+                    $data['title'],
+                    $data['price'],
+                    $data['description'],
+                    $id
+                ]);
+            }
             
         } catch (PDOException $e) {
             error_log("Erro no update: " . $e->getMessage());
             throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
         }
-}
+    }
+
+    public function delete($id) {
+        try {
+            $product = $this->findById($id);
+            
+            if ($product) {
+                if (!empty($product['image_url'])) {
+                    $this->deleteImageFile($product['image_url']);
+                }
+                
+                $stmt = $this->pdo->prepare("DELETE FROM Products WHERE id = ?");
+                return $stmt->execute([$id]);
+            }
+            
+            return false;
+            
+        } catch (PDOException $e) {
+            error_log("Erro no delete: " . $e->getMessage());
+            throw new Exception("Erro ao excluir produto: " . $e->getMessage());
+        }
+    }
 }

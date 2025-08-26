@@ -161,6 +161,40 @@ class ProductController extends RenderView
             $data  = $this->validateProductData($_POST);
             
             if (empty($data['errors'])) {
+                
+                if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
+                    
+                    $maxFileSize = 2 * 1024 * 1024;
+                    if ($_FILES["image"]["size"] > $maxFileSize) {
+                        $_SESSION['error'] = "O arquivo de imagem é muito grande. O tamanho máximo permitido é 2MB.";
+                        header('Location: /edit-product/' . $id);
+                        exit;
+                    }
+
+                    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                    $fileMimeType = mime_content_type($_FILES["image"]["tmp_name"]); 
+
+                    if (!in_array($fileMimeType, $allowedMimeTypes)) {
+                        $_SESSION['error'] = "Tipo de arquivo inválido. Apenas imagens JPG, PNG e GIF são permitidas.";
+                        header('Location: /edit-product/' . $id);
+                        exit;
+                    }
+
+                    $uploadDir = __DIR__ . '/../../app/public/uploads/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+                    $imageFileName = uniqid() . '_' . basename($_FILES["image"]["name"]);
+                    $imagePath = $uploadDir . $imageFileName;
+
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+                        $data['product']['image_url'] = '/app/public/uploads/' . $imageFileName;
+                    } else {
+                        $_SESSION['error'] = "Erro ao mover o arquivo de imagem.";
+                        header('Location: /edit-product/' . $id);
+                        exit;
+                    }
+                }
 
                 $success = $productModel->update($id, $data['product']);
                 
