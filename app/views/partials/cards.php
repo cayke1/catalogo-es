@@ -2,14 +2,24 @@
 <section class="grid" aria-label="Lista de produtos">
   <?php foreach($title as $item){ ;?>
       <article class="card" tabindex="0">
-        <div class="thumb" aria-hidden="true">Imagem do produto</div>
+        <div class="thumb" aria-hidden="true">
+        <?php if (!empty($item['image_url'])): ?>
+          <img src="<?php echo htmlspecialchars($item['image_url']); ?>"
+            alt="Imagem de <?php echo htmlspecialchars($item['title']); ?>"
+            class="product-image">
+        <?php else: ?>
+          <img src="/app/public/images/default.png"
+            alt="Imagem padrão"
+            class="product-image">
+        <?php endif; ?>
+      </div>
         <div class="content">
           <h2 class="name"><?php echo $item['title'];?></h2>
           <p class="description"><?php echo $item['description'];?></p>
           <div class="price">$ <?php echo number_format($item['price'], 2, ',', '.'); ?></div>
         </div>
         <div class="actions">
-          <a href="#" class="btn btn--ghost" aria-label="Editar Camiseta Essential">
+          <a href="/edit-product/<?= $item['id'] ?> " class="btn btn--ghost" aria-label="Editar Camiseta Essential">
           <div class="icon edit-icon">
           <svg viewBox="0 0 24 24">
           <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
