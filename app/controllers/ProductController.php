@@ -65,11 +65,10 @@ class ProductController extends RenderView
             exit;
         }
 
-
-        // Carregar a view apenas para GET
         $this->loadView('partials/header', ['title' => 'Add Product']);
         $this->loadView('add-product', []);
     }
+
     public function list()
     {
         $productModel = new ProductModel();
@@ -79,4 +78,112 @@ class ProductController extends RenderView
         $this->loadView('partials/header', ['title' => 'Lista de Produtos']);
         $this->loadView('partials/cards', ['title' => $products]);
     }
+
+
+    public function edit($id){
+
+
+        try {
+            if (!is_numeric($id)) {
+                $_SESSION['error'] = "ID inválido";
+                header('Location:/debug');
+                exit;
+            }
+            
+            $productModel = new ProductModel();
+            $product = $productModel->findById($id);
+            
+            if (!$product) {
+                $_SESSION['error'] = "Produto não encontrado";
+                header('Location:/add-product');
+                exit;
+            }
+            
+            $this->loadView('partials/header', ['title' => 'edit Product']);
+            $this->loadView('edit-product', ['product' => $product]);
+        
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Erro ao buscar produto: " . $e->getMessage();
+            header('Location:/sa');
+            exit;
+        }
+    }
+
+    private function validateProductData($data) {
+        $errors = [];
+        $product = [];
+        
+        if (empty(trim($data['title'] ?? ''))) {
+            $errors[] = "Nome é obrigatório";
+        } else {
+            $product['title'] = trim($data['title']);
+        }
+        
+        if (empty($data['price']) || !is_numeric($data['price']) || $data['price'] <= 0) {
+            $errors[] = "Preço deve ser um número maior que zero";
+        } else {
+            $product['price'] = floatval($data['price']);
+        }
+        
+        $product['description'] = trim($data['description'] ?? '');
+        
+        return [
+            'product' => $product,
+            'errors' => $errors
+        ];
+    }
+
+    public function update($id) {
+
+        try {
+
+            if (!is_numeric($id)) {
+                $_SESSION['error'] = "ID inválido";
+                header('Location: /idinvalido');
+                exit;
+            }
+            
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header('Location: /edit-product/' . $id);
+                exit;
+            }
+            
+            $productModel = new ProductModel();
+            $currentProduct = $productModel->findById($id);
+
+            if (!$currentProduct) {
+                $_SESSION['error'] = "Produto não encontrado";
+                header('Location: /notfound');
+                exit;
+            }
+            
+
+            $data  = $this->validateProductData($_POST);
+            
+            if (empty($data['errors'])) {
+
+                $success = $productModel->update($id, $data['product']);
+                
+                if ($success) {
+                    $_SESSION['success'] = "Produto atualizado com sucesso!";
+                    header('Location: /');
+                } else {
+                    $_SESSION['error'] = "Erro ao atualizar produto";
+                    header('Location: /edit-product/' . $id);
+                }
+            } else {
+                $_SESSION['errors'] = $data['errors'];
+                $_SESSION['old_input'] = $_POST;
+                header('Location: /edit/' . $id);
+            }
+        
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Erro ao atualizar produto: " . $e->getMessage();
+            header('Location: /error-exception/' . $e->getMessage());
+        }
+
+        exit;
+    }
+
+
 }
