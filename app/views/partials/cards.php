@@ -2,7 +2,17 @@
 <section class="grid" aria-label="Lista de produtos">
   <?php foreach($title as $item){ ;?>
       <article class="card" tabindex="0">
-        <div class="thumb" aria-hidden="true">Imagem do produto</div>
+        <div class="thumb" aria-hidden="true">
+        <?php if (!empty($item['image_url'])): ?>
+          <img src="<?php echo htmlspecialchars($item['image_url']); ?>"
+            alt="Imagem de <?php echo htmlspecialchars($item['title']); ?>"
+            class="product-image">
+        <?php else: ?>
+          <img src="/app/public/images/default.png"
+            alt="Imagem padrão"
+            class="product-image">
+        <?php endif; ?>
+      </div>
         <div class="content">
           <h2 class="name"><?php echo $item['title'];?></h2>
           <p class="description"><?php echo $item['description'];?></p>

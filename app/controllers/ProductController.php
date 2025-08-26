@@ -10,6 +10,7 @@ class ProductController extends RenderView
             $title = $_POST['title'] ?? '';
             $price = $_POST['price'] ?? 0;
             $description = $_POST['description'] ?? '';
+            $image_url = null;
 
             if (empty($title)) {
                 echo json_encode(['success' => false, 'error' => 'Título é obrigatório']);
@@ -21,8 +22,40 @@ class ProductController extends RenderView
                 exit;
             }
 
+            // Handle image upload
+            if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
+
+                $maxFileSize = 2 * 1024 * 1024;
+                if ($_FILES["image"]["size"] > $maxFileSize) {
+                    echo json_encode(["success" => false, "error" => "O arquivo de imagem é muito grande. O tamanho máximo permitido é 2MB."]);
+                    exit;
+                }
+
+                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                $fileMimeType = mime_content_type($_FILES["image"]["tmp_name"]); 
+
+                if (!in_array($fileMimeType, $allowedMimeTypes)) {
+                    echo json_encode(["success" => false, "error" => "Tipo de arquivo inválido. Apenas imagens JPG, PNG e GIF são permitidas."]);
+                    exit;
+                }
+
+                $uploadDir = __DIR__ . '/../../app/public/uploads/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                $imageFileName = uniqid() . '_' . basename($_FILES["image"]["name"]);
+                $imagePath = $uploadDir . $imageFileName;
+
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+                    $image_url = '/app/public/uploads/' . $imageFileName;
+                } else {
+                    echo json_encode(["success" => false, "error" => "Erro ao mover o arquivo de imagem."]);
+                    exit;
+                }
+            }
+
             $productModel = new ProductModel();
-            $productId = $productModel->createProduct($title, $price, $description);
+            $productId = $productModel->createProduct($title, $price, $description, $image_url);
 
             if ($productId) {
                 echo json_encode(['success' => true]);
@@ -45,6 +78,7 @@ class ProductController extends RenderView
         $this->loadView('partials/header', ['title' => 'Lista de Produtos']);
         $this->loadView('partials/cards', ['title' => $products]);
     }
+
 
     public function edit($id){
 
