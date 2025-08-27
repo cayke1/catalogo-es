@@ -20,12 +20,17 @@ class LoadEnv
         $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
-
             if (strpos(trim($line), '#') === 0) {
                 continue;
             }
 
-            [$name, $value] = array_map('trim', explode('=', $line, 2));
+            $parts = array_map('trim', explode('=', $line, 2));
+
+            if (count($parts) !== 2) {
+                continue;
+            }
+
+            [$name, $value] = $parts;
 
             $value = trim($value, "\"'");
 

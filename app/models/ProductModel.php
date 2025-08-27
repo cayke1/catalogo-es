@@ -41,6 +41,19 @@ class ProductModel extends Database
         }
     }
 
+        public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Products WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return null;
+        }
+    }
+
     public function findById($id){
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM Products WHERE id = ?");
