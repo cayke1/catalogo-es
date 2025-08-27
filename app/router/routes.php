@@ -5,5 +5,6 @@ $routes = [
     "/add-product" => "ProductController@create",
     "/edit-product/{id}" => "ProductController@edit",
     "/update-product/{id}" => "ProductController@update",
+    "/product/{id}" => "ProductController@show",
     "/delete-product/{id}" => "ProductController@delete",
 ];
