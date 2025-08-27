@@ -219,5 +219,28 @@ class ProductController extends RenderView
         exit;
     }
 
+    public function delete($id) {
+        try {
+            if (!is_numeric($id)) {
+                $_SESSION['error'] = "ID inválido";
+                header('Location: /idinvalido');
+                exit;
+            }
 
+            $productModel = new ProductModel();
+            $success = $productModel->delete($id);
+
+            if ($success) {
+                $_SESSION['success'] = "Produto excluído com sucesso!";
+                header('Location: /');
+            } else {
+                $_SESSION['error'] = "Erro ao excluir produto";
+                header('Location: /');
+            }
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Erro ao excluir produto: " . $e->getMessage();
+            header('Location: /error-exception/' . $e->getMessage());
+        }
+        exit;
+    }
 }
